@@ -5,8 +5,10 @@
 <h2 id = "header"> Enter Stuff </h2>
 
 <form>
-  <input type="text" id="input">
-  <button id="send">SEND</button> <br>
+  <input type="text" id="inputS">
+  <button id="sendS">SEND SHEETS</button> <br>  
+  <input type="text" id="inputD">
+  <button id="sendD">SEND DISCORD</button> <br>
   <input type="text" id="fetch">
   <button id="get">GET</button> 
 
@@ -14,17 +16,20 @@
 
 <script>
   const getButton = document.getElementById("get");
-  const sendButton = document.getElementById("send");
-  const input = document.getElementById("input");
+  const sendSButton = document.getElementById("sendS");
+  const sendDButton = document.getElementById("sendD");
+  const inputS = document.getElementById("inputS");
+  const inputD = document.getElementById("inputD");
   
   const baseUrl = "http://localhost:2147/";
   
   getButton.addEventListener("click", openSentHtml);
-  sendButton.addEventListener("click", addToSheetLinked);
+  sendSButton.addEventListener("click", addToSheet);
+  sendDButton.addEventListener("click", addToSheet);
   
   async function getInfo(e) {
     e.preventDefault();
-	console.log(input.value);
+	console.log(fetch.value);
   }
   
   async function openSentHtml() {
@@ -32,25 +37,13 @@
   }
   
   async function msgDiscord() {
-    const inputInfo = input.value;  
-    const res = await fetch("/msgDiscord/"+inputInfo+"/980708158886535209", {method: "GET"})
-  }
-  
-  async function addToSheetLinked() {
-    const inputInfo = input.value;  
-    const res = await fetch("/addToSheet/"+inputInfo + " "+"/B", {method: "GET"})
+    const inputInfo = inputD.value;  
+    const res = await fetch("/msgDiscord/980708158886535209/" + inputInfo, {method: "GET"})
   }
   
   async function addToSheet() {
-    const inputInfo = input.value;  
-	const data = {inputInfo};
-    const options = {
-	  method: "POST",
-	  headers: {"Content-Type": "application/json"},
-	  body: JSON.stringify(data)
-	};
-		
-	fetch("/addToSheet", options)
+    const inputInfo = inputS.value;  
+    const res = await fetch("/addToSheet/"+inputInfo+"/B", {method: "GET"})
   }
 </script>
 
