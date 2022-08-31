@@ -15,8 +15,7 @@
   returnButton.addEventListener("click", returnToBase);
   
   async function returnToBase(e) {
-    e.preventDefault();
-	console.log("returning");
+	const res = await fetch(baseUrl, {method: "GET"});
   }
   
 </script>

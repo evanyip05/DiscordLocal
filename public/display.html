@@ -6,9 +6,9 @@
 
 <form>
   <input type="text" id="input">
-  <button id="send">SEND</button> 
+  <button id="send">SEND</button> <br>
   <input type="text" id="fetch">
-  <button id="get">FETCH</button> 
+  <button id="get">GET</button> 
 
 </form>
 
@@ -19,15 +19,29 @@
   
   const baseUrl = "http://localhost:2147/";
   
-  getButton.addEventListener("click", getInfo);
-  sendButton.addEventListener("click", sendInputInfo);
+  getButton.addEventListener("click", openSentHtml);
+  sendButton.addEventListener("click", addToSheetLinked);
   
   async function getInfo(e) {
     e.preventDefault();
 	console.log(input.value);
   }
   
-  async function sendInputInfo() {
+  async function openSentHtml() {
+    const res = await fetch("/sent.html", {method: "GET"})
+  }
+  
+  async function msgDiscord() {
+    const inputInfo = input.value;  
+    const res = await fetch("/msgDiscord/"+inputInfo+"/980708158886535209", {method: "GET"})
+  }
+  
+  async function addToSheetLinked() {
+    const inputInfo = input.value;  
+    const res = await fetch("/addToSheet/"+inputInfo + " "+"/B", {method: "GET"})
+  }
+  
+  async function addToSheet() {
     const inputInfo = input.value;  
 	const data = {inputInfo};
     const options = {
