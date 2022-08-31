@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2 id = "header"> Enter Stuff </h2>
+
+<form>
+  <input type="text" id="input">
+  <button id="send">SEND</button> 
+  <input type="text" id="fetch">
+  <button id="get">FETCH</button> 
+
+</form>
+
+<script>
+  const getButton = document.getElementById("get");
+  const sendButton = document.getElementById("send");
+  const input = document.getElementById("input");
+  
+  const baseUrl = "http://localhost:2147/";
+  
+  getButton.addEventListener("click", getInfo);
+  sendButton.addEventListener("click", sendInputInfo);
+  
+  async function getInfo(e) {
+    e.preventDefault();
+	console.log(input.value);
+  }
+  
+  async function sendInputInfo() {
+    const inputInfo = input.value;  
+	const data = {inputInfo};
+    const options = {
+	  method: "POST",
+	  headers: {"Content-Type": "application/json"},
+	  body: JSON.stringify(data)
+	};
+		
+	fetch("/addToSheet", options)
+  }
+</script>
+
+</body>
+</html>

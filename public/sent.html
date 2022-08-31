@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2> Message Sent! </h2>
+
+<form>
+  <button id="return">Return Home</button>
+</form>
+
+<script> 
+  const returnButton = document.getElementById("return");
+  const baseUrl = "http://localhost:2147/";
+  
+  returnButton.addEventListener("click", returnToBase);
+  
+  async function returnToBase(e) {
+    e.preventDefault();
+	console.log("returning");
+  }
+  
+</script>
+
+</body>
+</html>
