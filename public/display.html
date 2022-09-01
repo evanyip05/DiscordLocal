@@ -2,30 +2,35 @@
 <html>
 <body>
 
-<h2 id = "header"> Enter Stuff </h2>
+<h1 id = "header"> Enter Stuff </h1>
+<h2 id = "channel"> ChannelID: </h2>
 
 <form>
   <input type="text" id="inputS">
-  <button id="sendS">SEND SHEETS</button> <br>  
+  <button id="sendS">SEND SHEETS</button> <br> <br>
   <input type="text" id="inputD">
-  <button id="sendD">SEND DISCORD</button> <br>
+  <button id="sendD">SEND DISCORD</button> <br> <br>
   <input type="text" id="fetch">
-  <button id="get">GET</button> 
-
+  <button id="setCh">SET CHANNEL</button> <br> <br>
+  <input type="text" id="channelInput">
+  <button id="get">GET</button>
 </form>
 
 <script>
   const getButton = document.getElementById("get");
+  const chSetButton = document.getElementById("setCh");
   const sendSButton = document.getElementById("sendS");
   const sendDButton = document.getElementById("sendD");
   const inputS = document.getElementById("inputS");
   const inputD = document.getElementById("inputD");
+  const inputCh = document.getElementById("channelInput");
   
   const baseUrl = "http://localhost:2147/";
   
   getButton.addEventListener("click", openSentHtml);
   sendSButton.addEventListener("click", addToSheet);
-  sendDButton.addEventListener("click", addToSheet);
+  sendDButton.addEventListener("click", msgDiscord);
+  chSetButton.addEventListener("click", () => {document.getElementById("channel").value = inputCh.value})
   
   async function getInfo(e) {
     e.preventDefault();
@@ -35,12 +40,13 @@
   async function openSentHtml() {
     const res = await fetch("/sent.html", {method: "GET"})
   }
-  
+
+  //980708158886535209
   async function msgDiscord() {
     const inputInfo = inputD.value;  
-    const res = await fetch("/msgDiscord/980708158886535209/" + inputInfo, {method: "GET"})
+    const res = await fetch("/msgDiscord/" + inputCh.value + "/" + inputInfo, {method: "GET"})
   }
-  
+
   async function addToSheet() {
     const inputInfo = inputS.value;  
     const res = await fetch("/addToSheet/"+inputInfo+"/B", {method: "GET"})

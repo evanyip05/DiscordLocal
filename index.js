@@ -9,7 +9,7 @@ const path = require("path");
 const fs = require("fs");
 
 // discord client object and express object
-const client = new Discord.Client({intents: ["GUILDS", "GUILDS_MESSAGES"]});
+const client = new Discord.Client({intents: 380104861760});
 const app = express();
 
 // finals
