@@ -21,8 +21,22 @@ const PORT = 2147;
 app.use(express.static("public"));
 app.use(express.json({limit: "1mb"}));
 
+// setup localtunnel
+(async () => {
+    const url = await getNewUrl();
+    app.listen(PORT, () => console.log("running on url: " + url + "\nwith port: " + PORT));
+})();
+
+// bot login
 client.login(DTOKEN);
 client.on("ready", () => {console.log("bot ready")});
+
+// generate new localtunnel url
+async function getNewUrl() {
+    const tunnel = await localtunnel({port: PORT});
+    tunnel.on("close", () => {console.log("tunnel closed")});
+    return await tunnel.url;
+}
 
 // write values to gsheet via id, takes value and column
 async function appendValue(spreadsheetId, value, col) {
@@ -51,12 +65,6 @@ function getAuth() {
 // root homepage
 app.get("/", (req, res) => {res.sendFile(path.resolve("public", "display.html"))});
 
-// get file from public
-app.get("/getFile/:file", (req, res) => {
-    console.log(path.resolve("public", req.params.file));
-    res.sendFile(path.resolve("public", req.params.file));
-});
-
 // send discord message via url get req
 app.get("/msgDiscord/:channelID/:message", (req, res) => {
 	client.channels.get(req.params.channel).send(req.params.message);
@@ -69,16 +77,12 @@ app.get("/addToSheet/:string/:col", (req, res) => {
     res.redirect("/");	
 });
 
-// setup localtunnel
-(async () => {
-	const url = await localtunnel({port: PORT}).url;
-
-	await appendValue(SHEETID, url, "A");
-
-	tunnel.on("close", () => {console.log("tunnelClosed")});
-
-	app.listen(PORT, () => console.log("running on " + PORT + "\nwith url:   " + url));
-})();
+// redirect to new url
+app.get("/newUrl", async (req, res) => {
+    const url = await getNewUrl();
+    console.log("new url: " + url);
+    res.redirect(url);
+});
 
 // discord bot listen
 client.on("message", async message => {
